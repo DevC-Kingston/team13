@@ -3,7 +3,7 @@
 [//]: <> (Please use this Winning Hackathon Application as an example:
 https://devpost.com/software/rewise-ai-powered-revision-bot)
 
-**Team Members**: Jada Bailey, Nicholas McKenzie, Roshawn Titus, Sabrina Johnson
+**Team Members**: Jada Bailey, Nicholas McKenzie, Roshawn Titus, Sabrina Johnson, Jermaine Coates
 
 ## Inspiration
 Add your Team’s Inspiration for the Chatbot
