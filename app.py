@@ -9,6 +9,7 @@ app = Flask(__name__)
 FB_API_URL = 'https://graph.facebook.com/v2.6/me/messages'
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
+PORT = int(os.getenv('PORT'))
 
 def handleMessage(sender_psid, received_message):
     response = {}
@@ -142,4 +143,4 @@ def listen():
                 return '', 403
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True)
