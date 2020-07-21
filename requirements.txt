@@ -1,3 +1,4 @@
 Flask==1.0.3
 requests==2.18.4
 python-dotenv==0.14.0
+gunicorn==19.9.0
