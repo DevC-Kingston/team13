@@ -9,19 +9,20 @@ app = Flask(__name__)
 FB_API_URL = 'https://graph.facebook.com/v2.6/me/messages'
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
-PORT = int(os.getenv('PORT'))
 
 def handleMessage(sender_psid, received_message):
+    print('handleMessage')
     response = {}
   
     # Checks if the message contains text
-    if (received_message['text']) :
+    if ('text' in received_message.keys()) :
+        print("You sent the message: {}. Now send me an attachment!".format(received_message['text']))
         # Create the payload for a basic text message, which
         # will be added to the body of our request to the Send API
         response = {
             "text": "You sent the message: {}. Now send me an attachment!".format(received_message['text'])
         }
-    elif received_message['attachments']:
+    elif 'attachments' in received_message.keys():
         # Get the URL of the message attachment
         attachment_url = received_message['attachments'][0]['payload']['url']
         response = {
@@ -50,8 +51,8 @@ def handleMessage(sender_psid, received_message):
             }
         }
   
-        # Send the response message
-        callSendAPI(sender_psid, response)    
+    # Send the response message
+    callSendAPI(sender_psid, response)    
 
 
 def handlePostback(sender_psid, received_postback):
@@ -59,7 +60,7 @@ def handlePostback(sender_psid, received_postback):
     response = {}
     
     #  Get the payload for the postback
-    payload = received_postback.payload
+    payload = received_postback['payload']
 
     # Set the response based on the postback payload
     if payload == 'yes':
@@ -82,12 +83,11 @@ def callSendAPI(sender_psid, response):
 
     try:
         # Send the HTTP request to the Messenger Platform
-        response = requests.post({
-            "uri": "https://graph.facebook.com/v2.6/me/messages",
-            "qs": { "access_token": PAGE_ACCESS_TOKEN },
-            "method": "POST",
-            "json": request_body
-        })
+        response = requests.post(
+            "https://graph.facebook.com/v2.6/me/messages", 
+            params= {"access_token": PAGE_ACCESS_TOKEN },
+            json= request_body
+        )
 
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
@@ -116,11 +116,13 @@ def listen():
                 # Get the sender PSID
                 sender_psid = webhook_event['sender']['id']
                 print('sender_psid:', sender_psid)
+                
+                handleMessage(sender_psid, webhook_event['message'])
 
-                if (webhook_event['message']):
-                    handleMessage(sender_psid, webhook_event['message'])
-                elif (webhook_event['postback']):
-                    handlePostback(sender_psid, webhook_event['postback'])
+                # if ('message' in webhook_event.keys()):
+                #     handleMessage(sender_psid, webhook_event['message'])
+                # elif ('postback' in webhook_event.keys()):
+                #     handlePostback(sender_psid, webhook_event['postback'])
             return 'EVENT_RECEIVED', 200
         else:
             return '', 404
@@ -143,4 +145,4 @@ def listen():
                 return '', 403
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+    app.run(debug=True)
