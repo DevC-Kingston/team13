@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.6.11"     
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+script:   
+  - echo PASSED
