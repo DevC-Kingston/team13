@@ -37,5 +37,18 @@
 		"disablitity": true,
 		"culturalexp": false,
 		"price per night": "$585"
+	},
+	{
+		"country": "Jamaica",
+		"name": "Holiday Inn",
+		"isFamFriendly": true,
+		"isRomantic": true,
+		"hasBeach": true,
+		"LightAdventure": true,
+		"Adventurous": true,
+		"forFood": true,
+		"disablitity": true,
+		"culturalexp": true,
+		"price per night": "$182"
 	}
 ]
