@@ -1,5 +1,41 @@
 [
-	{ "country": "Trinidad and Tobago", "name": "Hyatt Regency Trinidad", "hasBeach": true, "price per night": "$161" },
-	{ "country": "Barbados", "name": "Yellow Bird Hotel", "hasBeach": true, "price per night": "$95" },
-	{ "country": "Turks and Caicos", "name": "The Venetian on Grace Bay", "hasBeach": true, "price per night": "$585" }
+	{
+		"country": "Trinidad and Tobago",
+		"name": "Hyatt Regency Trinidad",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"LightAdventure": true,
+		"Adventurous": false,
+		"forFood": true,
+		"disablitity": true,
+		"culturalexp": true,
+		"price per night": "$161"
+	},
+	{
+		"country": "Barbados",
+		"name": "Yellow Bird Hotel",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"LightAdventure": true,
+		"Adventurous": true,
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": true,
+		"price per night": "$95"
+	},
+	{
+		"country": "Turks and Caicos",
+		"name": "The Venetian on Grace Bay",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"LightAdventure": true,
+		"Adventurous": false,
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$585"
+	}
 ]
