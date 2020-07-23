@@ -24,16 +24,16 @@
 		"price per night": "$95"
 	},
 	{
-		"country": "Turks and Caicos",
-		"name": "The Venetian on Grace Bay",
+		"country": "Cuba",
+		"name": "Hotel Nacional de Cuba",
 		"isFamFriendly": true,
-		"isRomantic": false,
+		"isRomantic": true,
 		"hasBeach": true,
 		"Adventure": "light",
 		"forFood": false,
 		"disablitity": true,
 		"culturalexp": false,
-		"price per night": "$585"
+		"price per night": "$72"
 	},
 	{
 		"country": "Jamaica",
@@ -46,5 +46,113 @@
 		"disablitity": true,
 		"culturalexp": true,
 		"price per night": "$182"
+	},
+	{
+		"country": "The Bahamas",
+		"name": "The Beach At Atlantis",
+		"isFamFriendly": true,
+		"isRomantic": true,
+		"hasBeach": true,
+		"Adventure": "heavy",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$254"
+	},
+	{
+		"country": "Dominican Republic",
+		"name": "Sheraton Santo Domingo Hotel",
+		"isFamFriendly": true,
+		"isRomantic": true,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$103"
+	},
+	{
+		"country": "Grenada",
+		"name": "Kalinago Beach Resort",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$155"
+	},
+	{
+		"country": "Haiti",
+		"name": "Le Plaza Hotel",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$90"
+	},
+	{
+		"country": "Saint Kitts and Nevis",
+		"name": "Imperial Bay Beach and Golf Residence",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$184"
+	},
+	{
+		"country": "Haiti",
+		"name": "Le Plaza Hotel",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$90"
+	},
+	{
+		"country": "Saint Lucia",
+		"name": "Cap Maison",
+		"isFamFriendly": true,
+		"isRomantic": true,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$701"
+	},
+	{
+		"country": "Saint Vincent and the Grenadines",
+		"name": "Bequia Beach Luxury Boutique Hotel",
+		"isFamFriendly": true,
+		"isRomantic": true,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$300"
+	},
+	{
+		"country": "Antigua and Barbuda",
+		"name": "Cortsland Hotel Antigua",
+		"isFamFriendly": true,
+		"isRomantic": false,
+		"hasBeach": true,
+		"Adventure": "light",
+		"forFood": false,
+		"disablitity": true,
+		"culturalexp": false,
+		"price per night": "$120"
 	}
 ]
