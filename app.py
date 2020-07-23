@@ -22,21 +22,136 @@ bot_flow = [
         'question': 'Let us begin!. Would you prefer to set some parameters or roll the dice?',
         'payload': '1',
         'response': [
-            'I\'d pefer to personalize my results.',
-            'I\'m feeling lucking. Show me some ideas.'
+            'Set Parameters.',
+            'Roll dice.'
+        ],
+    },
+    {
+        'question': 'Let me know what type of vacation it is.',
+        'payload': '2',
+        'response': [
+            'Family',
+            'Couples/Honeymoon',
+            'Friends',
+            'Single'
+        ],
+    },
+    {
+        'question': 'Let me know what type of vacation it is.',
+        'payload': '3',
+        'response': [
+            'Family',
+            'Couples/Honeymoon',
+            'Friends',
+            'Single'
+        ],
+    },
+    {
+        'question': 'What\'s your favorite things to do on vacation? Are you...',
+        'payload': '4',
+        'response': [
+            'Adventurous',
+            'Food',
+            'Enthusiast', 
+            'Culture',
+        ],
+    },
+    {
+        'question': 'What\'s your favorite things to do on vacation? Are you...',
+        'payload': '5',
+        'response': [
+            'Adventurous',
+            'Food',
+            'Enthusiast', 
+            'Culture',
+        ],
+    },
+    {
+        'question': 'Are you or anybody in your group disabled in anyway?',
+        'payload': '6',
+        'response': [
+            'Yes',
+            'No',
+        ],
+    },
+    {
+        'question': 'Are you interested in places with native languages outside your own?',
+        'payload': '7',
+        'response': [
+            'Yes',
+            'No',
+        ],
+    },
+    {
+        'question': 'Are you interested in places with native languages outside your own?',
+        'payload': '8',
+        'response': [
+            'Yes',
+            'No',
         ],
     },
 ]
 
 
 def handleMessage(sender_psid, received_message):
-    # global bot_flow_counter
-
     print('handleMessage')
     response = {}
-  
+    
+    callSendAPI(sender_psid, None, sender_action = 'typing_on')
+
+    if ('quick_reply' in received_message.keys()):
+        payload = received_message['quick_reply']['payload']
+        print(payload)
+        if payload == bot_flow[1]['payload']:
+            response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
+
+        elif payload == bot_flow[2]['payload']:
+            response = postback_button_response(bot_flow[3]['question'], bot_flow[3]['payload'], bot_flow[3]['response'])
+
+        elif payload == bot_flow[3]['payload']:
+            response = postback_button_response(bot_flow[4]['question'], bot_flow[4]['payload'], bot_flow[4]['response'])
+    
+        elif payload == bot_flow[4]['payload']:
+            response = postback_button_response(bot_flow[5]['question'], bot_flow[5]['payload'], bot_flow[5]['response'])
+
+        elif payload == bot_flow[5]['payload']:
+            response = postback_button_response(bot_flow[6]['question'], bot_flow[6]['payload'], bot_flow[6]['response'])
+        
+        elif payload == bot_flow[5]['payload']:
+            response = postback_button_response(bot_flow[6]['question'], bot_flow[6]['payload'], bot_flow[6]['response'])
+        
+        elif payload == bot_flow[6]['payload']:
+            response = postback_button_response(bot_flow[7]['question'], bot_flow[7]['payload'], bot_flow[7]['response'])
+        
+        elif payload == bot_flow[7]['payload']:
+            response = postback_button_response(bot_flow[8]['question'], bot_flow[8]['payload'], bot_flow[8]['response'])
+        
+        elif payload == bot_flow[8]['payload']:
+            response = {
+                "text": "Results"
+            }
+            # response = "payload": {
+            #     "template_type":"generic",
+            #     "elements":[
+            #         {
+            #         "title":"<TITLE_TEXT>",
+            #         "image_url":"<IMAGE_URL_TO_DISPLAY>",
+            #         "subtitle":"<SUBTITLE_TEXT>",
+            #         "default_action": {
+            #             "type": "web_url",
+            #             "url": "<DEFAULT_URL_TO_OPEN>",
+            #             "messenger_extensions": <TRUE | FALSE>,
+            #             "webview_height_ratio": "<COMPACT | TALL | FULL>"
+            #         },
+            #         "buttons":[<BUTTON_OBJECT>, ...]      
+            #         },
+            #     ]
+            # }
+        callSendAPI(sender_psid, response)
+    callSendAPI(sender_psid, None, sender_action = 'typing_off')
+
     # Checks if the message contains text
-    if ('text' in received_message.keys()) :
+    if ('text' in received_message.keys()):
         if received_message['text'].lower() == 'get started'.lower():
             first_name = retrieve_user_information(sender_psid)['first_name']
 
@@ -47,27 +162,7 @@ def handleMessage(sender_psid, received_message):
             callSendAPI(sender_psid, response)
 
             # Send Intro response message
-            response = {
-                'attachment': {
-                    'type': 'template',
-                    'payload': {
-                        'template_type': 'button',
-                        'text': bot_flow[1]['question'],
-                        'buttons': [
-                            {
-                                'type': 'postback',
-                                'title':  bot_flow[1]['response'][0],
-                                'payload': bot_flow[1]['payload']
-                            }, 
-                            {
-                                'type': 'postback',
-                                'title':  bot_flow[1]['response'][1],
-                                'payload': bot_flow[1]['payload']
-                            },
-                        ]
-                    }
-                }
-            } 
+            response = postback_button_response(bot_flow[1]['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
             callSendAPI(sender_psid, response)
 
       
@@ -77,21 +172,24 @@ def handlePostback(sender_psid, received_postback):
     
     #  Get the payload for the postback
     payload = received_postback['payload']
-    print(received_postback)
-
-    response = { "text": 'payload: ' + received_postback['payload'] }
-    # Set the response based on the postback payload
-    # if payload == 'yes':
-    #     response = { "text": "Thanks!" }
-    # elif payload == 'no':
-    #     response = { "text": "Oops, try sending another image." }
-
-    #   Send the message to acknowledge the postback
+    print(payload)
     callSendAPI(sender_psid, response)
 
-    response = { "text": 'title: ' + received_postback['title'] }
-    callSendAPI(sender_psid, response)
 
+def postback_button_response(text, payload, titles):
+
+    quick_replies = []
+    for title in titles:
+        quick_replies.append({
+            'content_type': 'text',
+            'title': title,
+            'payload' : payload,
+        })
+
+    return {
+        'text': text,
+        'quick_replies': quick_replies
+    }
 
 
 def retrieve_user_information(sender_psid):
@@ -104,20 +202,23 @@ def retrieve_user_information(sender_psid):
 
         return json.loads(response.content)
     except requests.HTTPError as http_err:
+        pass
         print(f'HTTP error occurred: {http_err}')  # Python 3.6
     except Exception as err:
         print(f'Other error occurred: {err}')  # Python 3.6
+        pass
     else:
         print('Success!')
 
 
-def callSendAPI(sender_psid, response):
+def callSendAPI(sender_psid, response, sender_action = None):
     # Construct the message body
     request_body = {
         "recipient": {
         "id": sender_psid
         },
-        "message": response
+        "message": response,
+         "sender_action": sender_action
     }
 
     try:
@@ -132,8 +233,10 @@ def callSendAPI(sender_psid, response):
         response.raise_for_status()
     except requests.HTTPError as http_err:
         print(f'HTTP error occurred: {http_err}')  # Python 3.6
+        pass
     except Exception as err:
         print(f'Other error occurred: {err}')  # Python 3.6
+        pass
     else:
         print('Success!')
     
@@ -150,19 +253,18 @@ def listen():
 
                 # Gets the body of the webhook event
                 webhook_event = entry['messaging'][0]
-                print('webhook_event:', webhook_event)
+                # print('webhook_event:', webhook_event)
 
                 # Get the sender PSID
                 sender_psid = webhook_event['sender']['id']
-                print('sender_psid:', sender_psid)
+                # print('sender_psid:', sender_psid)
                 
+                callSendAPI(sender_psid, None, sender_action = 'mark_seen')
                 if ('message' in webhook_event.keys()):
                     handleMessage(sender_psid, webhook_event['message'])
                 elif ('postback' in webhook_event.keys()):
                     handlePostback(sender_psid, webhook_event['postback'])
-                # bot_flow_counter = bot_flow_counter + 1
-                # print('bot_flow_counter', bot_flow_counter)
-            return 'EVENT_RECEIVED', 200
+                return 'EVENT_RECEIVED', 200
         else:
             return '', 404
 
