@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 from flask import Flask, request
 from dotenv import load_dotenv
 load_dotenv()
@@ -10,66 +11,104 @@ FB_API_URL = 'https://graph.facebook.com/v2.6/me/messages'
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
 
+
+bot_flow_counter = 0
+bot_flow = [
+    {
+        'question': 'Hello 👋, {}, I am Cari your CariTravel bot, here to help you choose the right destination 🙂.',
+        'response': None,
+    },
+    {
+        'question': 'Let us begin!. Would you prefer to set some parameters or roll the dice?',
+        'payload': '1',
+        'response': [
+            'I\'d pefer to personalize my results.',
+            'I\'m feeling lucking. Show me some ideas.'
+        ],
+    },
+]
+
+
 def handleMessage(sender_psid, received_message):
+    # global bot_flow_counter
+
     print('handleMessage')
     response = {}
   
     # Checks if the message contains text
     if ('text' in received_message.keys()) :
-        print("You sent the message: {}. Now send me an attachment!".format(received_message['text']))
-        # Create the payload for a basic text message, which
-        # will be added to the body of our request to the Send API
-        response = {
-            "text": "You sent the message: {}. Now send me an attachment!".format(received_message['text'])
-        }
-    elif 'attachments' in received_message.keys():
-        # Get the URL of the message attachment
-        attachment_url = received_message['attachments'][0]['payload']['url']
-        response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Is this the right picture?",
-                        "subtitle": "Tap a button to answer.",
-                        "image_url": attachment_url,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Yes!",
-                                "payload": "yes",
-                            },
-                            {
-                                "type": "postback",
-                                "title": "No!",
-                                "payload": "no",
-                            }
-                        ],
-                     }]
-                }
+        if received_message['text'].lower() == 'get started'.lower():
+            first_name = retrieve_user_information(sender_psid)['first_name']
+
+            # Send Intro response message
+            response = {
+                "text": bot_flow[0]['question'].format(first_name)
             }
-        }
-  
-    # Send the response message
-    callSendAPI(sender_psid, response)    
+            callSendAPI(sender_psid, response)
 
+            # Send Intro response message
+            response = {
+                'attachment': {
+                    'type': 'template',
+                    'payload': {
+                        'template_type': 'button',
+                        'text': bot_flow[1]['question'],
+                        'buttons': [
+                            {
+                                'type': 'postback',
+                                'title':  bot_flow[1]['response'][0],
+                                'payload': bot_flow[1]['payload']
+                            }, 
+                            {
+                                'type': 'postback',
+                                'title':  bot_flow[1]['response'][1],
+                                'payload': bot_flow[1]['payload']
+                            },
+                        ]
+                    }
+                }
+            } 
+            callSendAPI(sender_psid, response)
 
+      
 def handlePostback(sender_psid, received_postback):
-    print('ok')
+    print('handlePostback')
     response = {}
     
     #  Get the payload for the postback
     payload = received_postback['payload']
+    print(received_postback)
 
+    response = { "text": 'payload: ' + received_postback['payload'] }
     # Set the response based on the postback payload
-    if payload == 'yes':
-        response = { "text": "Thanks!" }
-    elif payload == 'no':
-        response = { "text": "Oops, try sending another image." }
+    # if payload == 'yes':
+    #     response = { "text": "Thanks!" }
+    # elif payload == 'no':
+    #     response = { "text": "Oops, try sending another image." }
 
     #   Send the message to acknowledge the postback
     callSendAPI(sender_psid, response)
+
+    response = { "text": 'title: ' + received_postback['title'] }
+    callSendAPI(sender_psid, response)
+
+
+
+def retrieve_user_information(sender_psid):
+    try:
+        # Send the HTTP request to the Messenger Platform
+        response = requests.get("https://graph.facebook.com/{}?fields=first_name,last_name,profile_pic&access_token={}".format(sender_psid, PAGE_ACCESS_TOKEN))
+
+        # If the response was successful, no Exception will be raised
+        response.raise_for_status()
+
+        return json.loads(response.content)
+    except requests.HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')  # Python 3.6
+    except Exception as err:
+        print(f'Other error occurred: {err}')  # Python 3.6
+    else:
+        print('Success!')
 
 
 def callSendAPI(sender_psid, response):
@@ -84,7 +123,7 @@ def callSendAPI(sender_psid, response):
     try:
         # Send the HTTP request to the Messenger Platform
         response = requests.post(
-            "https://graph.facebook.com/v2.6/me/messages", 
+            FB_API_URL, 
             params= {"access_token": PAGE_ACCESS_TOKEN },
             json= request_body
         )
@@ -117,16 +156,15 @@ def listen():
                 sender_psid = webhook_event['sender']['id']
                 print('sender_psid:', sender_psid)
                 
-                handleMessage(sender_psid, webhook_event['message'])
-
-                # if ('message' in webhook_event.keys()):
-                #     handleMessage(sender_psid, webhook_event['message'])
-                # elif ('postback' in webhook_event.keys()):
-                #     handlePostback(sender_psid, webhook_event['postback'])
+                if ('message' in webhook_event.keys()):
+                    handleMessage(sender_psid, webhook_event['message'])
+                elif ('postback' in webhook_event.keys()):
+                    handlePostback(sender_psid, webhook_event['postback'])
+                # bot_flow_counter = bot_flow_counter + 1
+                # print('bot_flow_counter', bot_flow_counter)
             return 'EVENT_RECEIVED', 200
         else:
             return '', 404
-
 
     if request.method == 'GET':
         # Parse params from the webhook verification request
