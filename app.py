@@ -37,27 +37,25 @@ bot_flow = [
         ],
     },
     {
-        'question': 'What\'s your favorite things to do on vacation? Are you...',
+        'question': 'What\'s your favorite things to do on vacation? Are you into...',
         'payload': '3',
         'response': [
-            'Adventurous',
-            'Food',
-            'Enthusiast', 
-            'Culture',
-        ],
-    },
-    {
-        'question': 'What\'s your favorite things to do on vacation? Are you...',
-        'payload': '4',
-        'response': [
-            'Adventurous',
-            'Food',
-            'Enthusiast', 
+            'Adventure',
+            'Food Experience',
+            'Beaches/Rivers', 
             'Culture',
         ],
     },
     {
         'question': 'Are you or anybody in your group disabled in anyway?',
+        'payload': '4',
+        'response': [
+            'Yes',
+            'No',
+        ],
+    },
+    {
+        'question': 'Are you interested in places with native languages outside your own?',
         'payload': '5',
         'response': [
             'Yes',
@@ -67,14 +65,6 @@ bot_flow = [
     {
         'question': 'Are you interested in places with native languages outside your own?',
         'payload': '6',
-        'response': [
-            'Yes',
-            'No',
-        ],
-    },
-    {
-        'question': 'Are you interested in places with native languages outside your own?',
-        'payload': '7',
         'response': [
             'Yes',
             'No',
@@ -106,14 +96,8 @@ def handleMessage(sender_psid, received_message):
 
         elif payload == bot_flow[5]['payload']:
             response = postback_button_response(bot_flow[6]['question'], bot_flow[6]['payload'], bot_flow[6]['response'])
-        
-        elif payload == bot_flow[5]['payload']:
-            response = postback_button_response(bot_flow[6]['question'], bot_flow[6]['payload'], bot_flow[6]['response'])
-        
+             
         elif payload == bot_flow[6]['payload']:
-            response = postback_button_response(bot_flow[7]['question'], bot_flow[7]['payload'], bot_flow[7]['response'])
-        
-        elif payload == bot_flow[7]['payload']:
             response = {
                 "text": "Results"
             }
