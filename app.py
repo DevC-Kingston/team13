@@ -11,18 +11,15 @@ FB_API_URL = 'https://graph.facebook.com/v2.6/me/messages'
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
 
+data = {}
+with open('assets/data.json') as json_file:
+    data = json.load(json_file)
 
 bot_flow_counter = 0
 bot_flow = [
-    
     {
         'question': 'Hello 👋, {}, I am Cari your CariTravel bot, here to help you choose the right destination 🙂.',
         'response': None,
-    },
-    {
-        'question': 'Are you ready?',
-        'payload': '0',
-        'response': ['Get Started'],
     },
     {
         'question': 'Let us begin!. Would you prefer to set some parameters or roll the dice?',
@@ -68,7 +65,6 @@ bot_flow = [
             'No',
         ],
     },
-    
 ]
 
 
@@ -81,10 +77,7 @@ def handleMessage(sender_psid, received_message):
     if ('quick_reply' in received_message.keys()):
         payload = received_message['quick_reply']['payload']
         print(payload)
-        if payload == bot_flow[0]['payload']:
-            response = postback_button_response(bot_flow[1]['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
-            
-        elif payload == bot_flow[1]['payload']:
+        if payload == bot_flow[1]['payload']:
             response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
 
         elif payload == bot_flow[2]['payload']:
