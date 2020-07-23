@@ -62,14 +62,7 @@ bot_flow = [
             'No',
         ],
     },
-    {
-        'question': 'Are you interested in places with native languages outside your own?',
-        'payload': '6',
-        'response': [
-            'Yes',
-            'No',
-        ],
-    },
+    
 ]
 
 
@@ -95,9 +88,6 @@ def handleMessage(sender_psid, received_message):
             response = postback_button_response(bot_flow[5]['question'], bot_flow[5]['payload'], bot_flow[5]['response'])
 
         elif payload == bot_flow[5]['payload']:
-            response = postback_button_response(bot_flow[6]['question'], bot_flow[6]['payload'], bot_flow[6]['response'])
-             
-        elif payload == bot_flow[6]['payload']:
             response = {
                 "text": "Results"
             }
