@@ -11,6 +11,9 @@ FB_API_URL = 'https://graph.facebook.com/v2.6/me/messages'
 VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
 
+data = {}
+with open('assets/data.json') as json_file:
+    data = json.load(json_file)
 
 bot_flow_counter = 0
 bot_flow = [
@@ -62,7 +65,6 @@ bot_flow = [
             'No',
         ],
     },
-    
 ]
 
 
