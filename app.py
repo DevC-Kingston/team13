@@ -82,7 +82,7 @@ def handleMessage(sender_psid, received_message):
         payload = received_message['quick_reply']['payload']
         print(payload)
         if payload == bot_flow[0]['payload']:
-            response = postback_button_response(bot_flow[1['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
+            response = postback_button_response(bot_flow[1]['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
             
         elif payload == bot_flow[1]['payload']:
             response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
