@@ -20,7 +20,7 @@ bot_flow = [
         'response': None,
     },
     {
-        'question': '',
+        'question': 'Are you ready?',
         'payload': '0',
         'response': ['Get Started'],
     },
