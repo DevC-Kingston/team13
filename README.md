@@ -25,6 +25,7 @@ Tech Stack & Documentation:
 
 ## Challenges we ran into
 1. Getting the buttons to work
+2. Saving a state of a chat without use of databases
 
  
  
@@ -35,20 +36,23 @@ Tech Stack & Documentation:
 
 ## What we learned
 * How to connect the chatbot
-* how to make a button in the chatbot 
+* how to make a button in the chatbot
+* how better debug issues in python and heroku
 
 
 ## What's next for CariTravel
 Product Roadmap - next features for example
-1. To incorperate other countries outside of the Caribbean 
+1. To incorperate other countries outside of the Caribbean
+2. To incorperate Caribbean countries that are not in our database 
 
 
 
 ## Built With - provide the tech stack used 
 * Python
-
+* Flask
+* Heroku
 
 
 ## Try it out
-[Add link to Public GitHub Page](link) </br>
+[Add link to Public GitHub Page](link)
 [Add link to GitHub Page](link)
