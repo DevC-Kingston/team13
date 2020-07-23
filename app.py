@@ -72,13 +72,18 @@ def handleMessage(sender_psid, received_message):
     print('handleMessage')
     response = {}
     
-    callSendAPI(sender_psid, None, sender_action = 'typing_on')
+    sender_action('typing_on')
 
     if ('quick_reply' in received_message.keys()):
         payload = received_message['quick_reply']['payload']
-        print(payload)
+        response_message = received_message['text']
         if payload == bot_flow[1]['payload']:
-            response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
+            if(response_message == bot_flow[1]['response'][0]):
+                response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
+            elif(response_message == bot_flow[1]['response'][1]):
+                response = {
+                    "text": "Results"
+                }
 
         elif payload == bot_flow[2]['payload']:
             response = postback_button_response(bot_flow[3]['question'], bot_flow[3]['payload'], bot_flow[3]['response'])
@@ -91,29 +96,71 @@ def handleMessage(sender_psid, received_message):
 
         elif payload == bot_flow[5]['payload']:
             response = {
-                "text": "Results"
+                "attachment": {
+                    "type":"template",
+                    "payload": {
+                        "template_type":"generic",
+                        "elements":[
+                            {
+                                "title":"Holiday Inn Resort Montego Bay",
+                                "image_url":"https://ihg.scene7.com/is/image/ihg/holiday-inn-resort-montego-bay-4130892904-16x5",
+                                "subtitle":"Jamaica",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://via.placeholder.com/",
+                                    "messenger_extensions": False,
+                                    "webview_height_ratio": "COMPACT"
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://www.ihg.com/holidayinnresorts/hotels/us/en/montego-bay/mbjrh/hoteldetail?cm_mmc=GoogleMaps-_-RS-_-JM-_-MBJRH",
+                                        "title":"Check it out"
+                                    }
+                                ]      
+                            },
+                            {
+                                "title":"Sheraton Santo Domingo Hotel",
+                                "image_url":"https://cache.marriott.com/marriottassets/marriott/SDQDS/sdqds-exterior-9012-hor-wide.jpg?interpolation=progressive-bilinear&downsize=1440px:*",
+                                "subtitle":"Dominican Republic",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://cache.marriott.com/marriottassets/marriott/SDQDS/sdqds-exterior-9012-hor-wide.jpg?interpolation=progressive-bilinear&downsize=1440px:*",
+                                    "messenger_extensions": False,
+                                    "webview_height_ratio": "COMPACT"
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://www.marriott.com/hotels/travel/sdqds-sheraton-santo-domingo-hotel/?scid=bb1a189a-fec3-4d19-a255-54ba596febe2&y_source=1_Mjg2ODk3OC03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU=",
+                                        "title":"Check it out"
+                                    }
+                                ]     
+                            },
+                            {
+                                "title":"Kalinago Beach Resort",
+                                "image_url":"https://kalinagobeachresort.com/wp-content/uploads/2015/08/resort.jpg",
+                                "subtitle":"Grenada",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://kalinagobeachresort.com/",
+                                    "messenger_extensions": False,
+                                    "webview_height_ratio": "COMPACT"
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://kalinagobeachresort.com/",
+                                        "title":"Check it out"
+                                    }
+                                ]       
+                            }
+                        ],
+                    }
+                }
             }
-            
-            
-            # response = "payload": {
-            #     "template_type":"generic",
-            #     "elements":[
-            #         {
-            #         "title":"<TITLE_TEXT>",
-            #         "image_url":"<IMAGE_URL_TO_DISPLAY>",
-            #         "subtitle":"<SUBTITLE_TEXT>",
-            #         "default_action": {
-            #             "type": "web_url",
-            #             "url": "<DEFAULT_URL_TO_OPEN>",
-            #             "messenger_extensions": <TRUE | FALSE>,
-            #             "webview_height_ratio": "<COMPACT | TALL | FULL>"
-            #         },
-            #         "buttons":[<BUTTON_OBJECT>, ...]      
-            #         },
-            #     ]
-            # }
         callSendAPI(sender_psid, response)
-    callSendAPI(sender_psid, None, sender_action = 'typing_off')
+    sender_action('typing_off')
 
     # Checks if the message contains text
     if ('text' in received_message.keys()):
@@ -156,6 +203,56 @@ def postback_button_response(text, payload, titles):
         'quick_replies': quick_replies
     }
 
+def sender_action(sender_action):
+    # Construct the message body
+    request_body = {
+        "sender_action": sender_action
+    }
+
+    try:
+        # Send the HTTP request to the Messenger Platform
+        response = requests.post(
+            FB_API_URL, 
+            params= {"access_token": PAGE_ACCESS_TOKEN },
+            json= request_body
+        )
+
+        # If the response was successful, no Exception will be raised
+        response.raise_for_status()
+    except requests.HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')  # Python 3.6
+        pass
+    except Exception as err:
+        print(f'Other error occurred: {err}')  # Python 3.6
+        pass
+    else:
+        print('Success!')
+    
+
+def get_started():
+    # Construct the message body
+    request_body = {
+        "get_started": {"payload": "<postback_payload>"}
+    }
+
+    try:
+        # Send the HTTP request to the Messenger Platform
+        response = requests.post(
+            FB_API_URL, 
+            params= {"access_token": PAGE_ACCESS_TOKEN },
+            json= request_body
+        )
+
+        # If the response was successful, no Exception will be raised
+        response.raise_for_status()
+    except requests.HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')  # Python 3.6
+        pass
+    except Exception as err:
+        print(f'Other error occurred: {err}')  # Python 3.6
+        pass
+    else:
+        print('Success!')
 
 def retrieve_user_information(sender_psid):
     try:
@@ -209,6 +306,7 @@ def callSendAPI(sender_psid, response, sender_action = None):
 @app.route("/webhook", methods=['GET','POST'])
 def listen():
     if request.method == 'POST':
+        
         # Parse the request body from the POST
         body = request.json
 
@@ -224,7 +322,7 @@ def listen():
                 sender_psid = webhook_event['sender']['id']
                 # print('sender_psid:', sender_psid)
                 
-                callSendAPI(sender_psid, None, sender_action = 'mark_seen')
+                sender_action('mark_seen')
                 if ('message' in webhook_event.keys()):
                     handleMessage(sender_psid, webhook_event['message'])
                 elif ('postback' in webhook_event.keys()):
@@ -238,7 +336,7 @@ def listen():
         mode = request.args.get('hub.mode')
         token = request.args.get('hub.verify_token')
         challenge = request.args.get('hub.challenge')
-
+        
         # Check if a token and mode were sent
         if (mode and token):
 
