@@ -1,4 +1,4 @@
-# Caritravel_bot
+# CariTravel
 
 [//]: <> (Please use this Winning Hackathon Application as an example:
 https://devpost.com/software/rewise-ai-powered-revision-bot)
@@ -19,8 +19,8 @@ This chatbot is designed to find the best possible location to travel to in the 
 
 ## How we built it
 Tech Stack & Documentation:
-* 1 
-* 2
+* 1 The chatbot was made with python in order to start the process you have to type the keyword “Get Started” and then the chatbot will start its process of getting to know which Caribbean island is most suited for the user
+
 
 
 ## Challenges we ran into
@@ -38,7 +38,7 @@ Tech Stack & Documentation:
 * how to make a button in the chatbot 
 
 
-## What's next for Caritravel_bot
+## What's next for CariTravel
 Product Roadmap - next features for example
 1. To incorperate other countries outside of the Caribbean 
 
