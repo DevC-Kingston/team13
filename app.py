@@ -37,13 +37,13 @@ bot_flow = [
         ],
     },
     {
-        'question': 'Let me know what type of vacation it is.',
+        'question': 'What\'s your favorite things to do on vacation? Are you...',
         'payload': '3',
         'response': [
-            'Family',
-            'Couples/Honeymoon',
-            'Friends',
-            'Single'
+            'Adventurous',
+            'Food',
+            'Enthusiast', 
+            'Culture',
         ],
     },
     {
@@ -57,17 +57,15 @@ bot_flow = [
         ],
     },
     {
-        'question': 'What\'s your favorite things to do on vacation? Are you...',
+        'question': 'Are you or anybody in your group disabled in anyway?',
         'payload': '5',
         'response': [
-            'Adventurous',
-            'Food',
-            'Enthusiast', 
-            'Culture',
+            'Yes',
+            'No',
         ],
     },
     {
-        'question': 'Are you or anybody in your group disabled in anyway?',
+        'question': 'Are you interested in places with native languages outside your own?',
         'payload': '6',
         'response': [
             'Yes',
@@ -77,14 +75,6 @@ bot_flow = [
     {
         'question': 'Are you interested in places with native languages outside your own?',
         'payload': '7',
-        'response': [
-            'Yes',
-            'No',
-        ],
-    },
-    {
-        'question': 'Are you interested in places with native languages outside your own?',
-        'payload': '8',
         'response': [
             'Yes',
             'No',
@@ -124,12 +114,11 @@ def handleMessage(sender_psid, received_message):
             response = postback_button_response(bot_flow[7]['question'], bot_flow[7]['payload'], bot_flow[7]['response'])
         
         elif payload == bot_flow[7]['payload']:
-            response = postback_button_response(bot_flow[8]['question'], bot_flow[8]['payload'], bot_flow[8]['response'])
-        
-        elif payload == bot_flow[8]['payload']:
             response = {
                 "text": "Results"
             }
+            
+            
             # response = "payload": {
             #     "template_type":"generic",
             #     "elements":[
