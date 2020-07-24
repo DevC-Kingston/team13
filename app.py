@@ -225,7 +225,7 @@ def handleMessage(sender_psid, received_message):
 
     # Checks if the message contains text
     if ('text' in received_message.keys()):
-        if received_message['text'].lower() == 'get started'.lower() or not received_message['text'].lower():
+        if received_message['text'].lower() == 'get started'.lower() or not received_message['text'] == '':
             first_name = retrieve_user_information(sender_psid)['first_name']
 
             # Send Intro response message
