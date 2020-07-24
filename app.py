@@ -82,7 +82,68 @@ def handleMessage(sender_psid, received_message):
                 response = postback_button_response(bot_flow[2]['question'], bot_flow[2]['payload'], bot_flow[2]['response'])
             elif(response_message == bot_flow[1]['response'][1]):
                 response = {
-                    "text": "Results"
+                    "attachment": {
+                        "type":"template",
+                        "payload": {
+                            "template_type":"generic",
+                            "elements":[
+                                {
+                                    "title":"Holiday Inn Resort Montego Bay",
+                                    "image_url":"https://ihg.scene7.com/is/image/ihg/holiday-inn-resort-montego-bay-4130892904-16x5",
+                                    "subtitle":"Jamaica",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://via.placeholder.com/",
+                                        "messenger_extensions": False,
+                                        "webview_height_ratio": "COMPACT"
+                                    },
+                                    "buttons":[
+                                        {
+                                            "type":"web_url",
+                                            "url":"https://www.ihg.com/holidayinnresorts/hotels/us/en/montego-bay/mbjrh/hoteldetail?cm_mmc=GoogleMaps-_-RS-_-JM-_-MBJRH",
+                                            "title":"Check it out"
+                                        }
+                                    ]      
+                                },
+                                {
+                                    "title":"Sheraton Santo Domingo Hotel",
+                                    "image_url":"https://cache.marriott.com/marriottassets/marriott/SDQDS/sdqds-exterior-9012-hor-wide.jpg?interpolation=progressive-bilinear&downsize=1440px:*",
+                                    "subtitle":"Dominican Republic",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://cache.marriott.com/marriottassets/marriott/SDQDS/sdqds-exterior-9012-hor-wide.jpg?interpolation=progressive-bilinear&downsize=1440px:*",
+                                        "messenger_extensions": False,
+                                        "webview_height_ratio": "COMPACT"
+                                    },
+                                    "buttons":[
+                                        {
+                                            "type":"web_url",
+                                            "url":"https://www.marriott.com/hotels/travel/sdqds-sheraton-santo-domingo-hotel/?scid=bb1a189a-fec3-4d19-a255-54ba596febe2&y_source=1_Mjg2ODk3OC03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU=",
+                                            "title":"Check it out"
+                                        }
+                                    ]     
+                                },
+                                {
+                                    "title":"Kalinago Beach Resort",
+                                    "image_url":"https://kalinagobeachresort.com/wp-content/uploads/2015/08/resort.jpg",
+                                    "subtitle":"Grenada",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://kalinagobeachresort.com/",
+                                        "messenger_extensions": False,
+                                        "webview_height_ratio": "COMPACT"
+                                    },
+                                    "buttons":[
+                                        {
+                                            "type":"web_url",
+                                            "url":"https://kalinagobeachresort.com/",
+                                            "title":"Check it out"
+                                        }
+                                    ]       
+                                }
+                            ],
+                        }
+                    }
                 }
 
         elif payload == bot_flow[2]['payload']:
