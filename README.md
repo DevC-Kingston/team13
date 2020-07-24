@@ -54,5 +54,5 @@ Product Roadmap - next features for example
 
 
 ## Try it out
-[Add link to Public GitHub Page](link)
-[Add link to GitHub Page](link)
+[Add link to Public GitHub Page](https://github.com/DevC-Kingston/team13) <br>
+[Add link to GitHub Page](https://devc-kingston.github.io/team13/)
