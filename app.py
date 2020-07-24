@@ -72,8 +72,6 @@ def handleMessage(sender_psid, received_message):
     print('handleMessage')
     response = {}
     
-    sender_action('typing_on')
-
     if ('quick_reply' in received_message.keys()):
         payload = received_message['quick_reply']['payload']
         response_message = received_message['text']
@@ -221,22 +219,26 @@ def handleMessage(sender_psid, received_message):
                 }
             }
         callSendAPI(sender_psid, response)
-    sender_action('typing_off')
+        return
 
     # Checks if the message contains text
     if ('text' in received_message.keys()):
-        if received_message['text'].lower() == 'get started'.lower() or not received_message['text'] == '':
+        # if received_message['text'].lower() == 'get started'.lower()  or received_message['text'] != "":
+        try:
             first_name = retrieve_user_information(sender_psid)['first_name']
+        except:
+            first_name = ''
 
-            # Send Intro response message
-            response = {
-                "text": bot_flow[0]['question'].format(first_name)
-            }
-            callSendAPI(sender_psid, response)
+        # Send Intro response message
+        response = {
+            "text": bot_flow[0]['question'].format(first_name)
+        }
+        callSendAPI(sender_psid, response)
 
-            # Send Intro response message
-            response = postback_button_response(bot_flow[1]['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
-            callSendAPI(sender_psid, response)
+        # Send Intro response message
+        response = postback_button_response(bot_flow[1]['question'], bot_flow[1]['payload'], bot_flow[1]['response'])
+        callSendAPI(sender_psid, response)
+        return
 
       
 def handlePostback(sender_psid, received_postback):
@@ -383,7 +385,6 @@ def listen():
                 sender_psid = webhook_event['sender']['id']
                 # print('sender_psid:', sender_psid)
                 
-                sender_action('mark_seen')
                 if ('message' in webhook_event.keys()):
                     handleMessage(sender_psid, webhook_event['message'])
                 elif ('postback' in webhook_event.keys()):
